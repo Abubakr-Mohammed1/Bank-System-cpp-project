@@ -1,0 +1,17 @@
+# Visual Studio
+.vs/
+**/.vs/
+
+# Build folders
+Debug/
+Release/
+x64/
+x86/
+
+# IntelliSense / cache
+*.ipch
+*.vsidx
+*.suo
+*.user
+*.log
+*.tlog
