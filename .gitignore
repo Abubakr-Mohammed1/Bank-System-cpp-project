@@ -7,6 +7,7 @@ Debug/
 Release/
 x64/
 x86/
+build/
 
 # IntelliSense / cache
 *.ipch
@@ -15,3 +16,21 @@ x86/
 *.user
 *.log
 *.tlog
+
+# Compiled files
+*.exe
+*.out
+*.obj
+*.pdb
+*.ilk
+
+# Temporary files
+*.tmp
+*.cache
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Weird temp files (زي الملف 0)
+0
