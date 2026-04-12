@@ -52,21 +52,20 @@ string ReadClientAccountNumber()
 {
     string AccountNumber = "";
 
-    cout << "\nPlease enter AccountNumber? ";
+    //cout << "\nEnter AccountNumber? ";
     cin >> AccountNumber;
 
     return AccountNumber;
 }
 
-stClient ReadNewClient()
+stClient ReadNewClient(string AccountNumber)
 {
     stClient Client;
 
-    cout << "Enter Account Number? ";
-    getline(cin >> ws, Client.AccountNumber);
+    Client.AccountNumber = AccountNumber;
 
     cout << "Enter PinCode? ";
-    getline(cin, Client.PINcode);
+    getline(cin >> ws, Client.PINcode);
 
     cout << "Enter Name? ";
     getline(cin, Client.Name);
@@ -271,7 +270,25 @@ void AddClientToFile(string FileName, string stDataLine)
 
 void AddNewClient()
 {
-    stClient Client = ReadNewClient();
+    string AccountNumber;
+    vector <stClient> vClients = LoadDataFormFileToVector(ClientFileName);
+    stClient Client;
+
+    cout << "\nEnter Account Number? ";
+
+    do 
+    {
+        AccountNumber = ReadClientAccountNumber();
+
+        if (FindClientByAccountNumber(AccountNumber, vClients, Client))
+        {
+            cout << "\nClient with [" << AccountNumber << "] already exists, Enter another Account Number? ";
+        }
+
+
+    } while (FindClientByAccountNumber(AccountNumber, vClients, Client));
+
+    Client = ReadNewClient(AccountNumber);
     AddClientToFile(ClientFileName, ConvertRecordToLine(Client));
 
 }
@@ -283,8 +300,7 @@ void AddClients()
     do
     {
 
-        system("cls");
-        cout << "Adding New Client\n\n";
+        cout << "Adding New Client:\n\n";
 
         AddNewClient();
         cout << "\nClient Added Successfully, do you want to add more clients? ";
@@ -372,26 +388,31 @@ enum enMainMenueOptions { eShowClientList = 1, eAddNewClient = 2, eDeleteClient 
     eUpdateClient = 4, eFindClient = 5, eExit = 6
 };
 
+void ShowingClientsList()
+{
+    system("cls");
+    PrintAllClientsData();
+    GoBackToMainMenue();
+}
+
+void ShowAddNewClientScreen()
+{
+    system("cls");
+    cout << "\n___________________________________\n";
+    cout << "\tAdd New Clients Screen";
+    cout << "\n___________________________________\n\n";
+
+    AddClients();
+
+    GoBackToMainMenue();
+}
+
 short ReadMainMenueOption()
 {
     short Choose = 0;
     cout << "Choose what do you want to do? [1 to 6]? ";
     cin >> Choose;
     return Choose;
-}
-
-void PerformMainMenueOption(enMainMenueOptions MainMenueOption)
-{
-    switch (MainMenueOption)
-    {
-    case enMainMenueOptions::eShowClientList:
-    {
-        system("cls");
-        PrintAllClientsData();
-        GoBackToMainMenue();
-        break;
-    }
-    }
 }
 
 void ShowMainMenue()
@@ -408,14 +429,14 @@ void ShowMainMenue()
     cout << "\t[6] Exit.\n";
     cout << "==========================================\n\n";
 
-    PerformMainMenueOption((enMainMenueOptions)ReadMainMenueOption());
+    //PerformMainMenueOption((enMainMenueOptions)ReadMainMenueOption());
 
 }
 
 int main()
 {
-    
-    ShowMainMenue();
+    ShowingClientsList();
+    ShowAddNewClientScreen();
 
     system("pause>0");
 
