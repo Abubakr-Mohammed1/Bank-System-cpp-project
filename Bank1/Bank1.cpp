@@ -232,13 +232,16 @@ void PrintAllClientsData()
 
 void PrintClientDetail(stClient Client)
 {
-    cout << "\n\nThe following are the client details: \n\n";
+    cout << "\n\nThe following are the client details: \n";
 
-    cout << "Account Number       : " << Client.AccountNumber;
+    cout << "\n___________________________________\n";
+    cout << "Account Number     : " << Client.AccountNumber;
     cout << "\nPin Code           : " << Client.PINcode;
     cout << "\nName               : " << Client.Name;
     cout << "\nPhone              : " << Client.Phone;
     cout << "\nAccount Balance    : " << Client.AccountBalance;
+    cout << "\n___________________________________\n";
+
 }
 
 bool MarkClientToDeleteByAccountNumber(string AccountNumber, vector <stClient>& vClients)
@@ -312,6 +315,27 @@ void AddClients()
     } while (toupper(AddMore) == 'Y');
 }
 
+bool FindClient()
+{
+    string AccountNumber;
+    vector <stClient> vClients = LoadDataFormFileToVector(ClientFileName);
+    stClient Client;
+
+    cout << "\nEnter Account Number? ";
+    AccountNumber = ReadClientAccountNumber();
+
+    if (FindClientByAccountNumber(AccountNumber, vClients, Client))
+    {
+        PrintClientDetail(Client);
+        return true;
+    }
+    else
+    {
+        cout << "\n\nClient with Account Number (" << AccountNumber << ") Not Found!";
+        return false;
+    }
+}
+
 bool DeleteClientByAccountNumber()
 {
     string AccountNumber;
@@ -352,16 +376,22 @@ bool DeleteClientByAccountNumber()
     }
 }
 
-bool UpdateClientByAccountNumber(string AccountNumber, vector <stClient>& vClients)
+bool UpdateClientByAccountNumber()
 {
+
+    string AccountNumber;
+    vector <stClient> vClients = LoadDataFormFileToVector(ClientFileName);
     stClient Client;
+
+    cout << "\nEnter Account Number? ";
+    AccountNumber = ReadClientAccountNumber();
 
     if (FindClientByAccountNumber(AccountNumber, vClients, Client))
     {
         PrintClientDetail(Client);
 
         char Answer = 'y';
-        cout << "\n\nAre you sure you want delete this client? y/n ? ";
+        cout << "\n\nAre you sure you want update this client? y/n ? ";
         cin >> Answer;
 
         if (Answer == 'Y' || Answer == 'y')
@@ -378,6 +408,11 @@ bool UpdateClientByAccountNumber(string AccountNumber, vector <stClient>& vClien
             SaveClientsDataToFile(ClientFileName, vClients);
 
             cout << "\n\nClient Updated Successfully.";
+            return true;
+        }
+        else
+        {
+            cout << "\n\nThe client was not updated.";
             return true;
         }
     }
@@ -398,6 +433,24 @@ void GoBackToMainMenue()
 enum enMainMenueOptions { eShowClientList = 1, eAddNewClient = 2, eDeleteClient = 3,
     eUpdateClient = 4, eFindClient = 5, eExit = 6
 };
+
+void ShowFindClientScreen()
+{
+    cout << "\n___________________________________\n";
+    cout << "\tFind Client Screen";
+    cout << "\n___________________________________\n\n";
+
+    FindClient();
+}
+
+void ShowUpdateClientScreen()
+{
+    cout << "\n___________________________________\n";
+    cout << "\tUpdate Client Info Screen";
+    cout << "\n___________________________________\n\n";
+
+    UpdateClientByAccountNumber();
+}
 
 void ShowDeleteClientScreen()
 {
@@ -448,6 +501,18 @@ void ActivateMainMenue(enMainMenueOptions MainMenueOption)
         ShowDeleteClientScreen();
         GoBackToMainMenue();
     }
+    case enMainMenueOptions::eUpdateClient:
+    {
+        system("cls");
+        ShowUpdateClientScreen();
+        GoBackToMainMenue();
+    }
+    case enMainMenueOptions::eFindClient:
+    {
+        system("cls");
+        ShowFindClientScreen();
+        GoBackToMainMenue();
+    }
 
 
 
@@ -467,7 +532,7 @@ void ShowMainMenue()
     cout << "\t[1] Show Client List.\n";
     cout << "\t[2] Add New Client.\n";
     cout << "\t[3] Delete Client.\n";
-    cout << "\t[4] Update Client.\n";
+    cout << "\t[4] Update Client Info.\n";
     cout << "\t[5] Find Client.\n";
     cout << "\t[6] Exit.\n";
     cout << "==========================================\n\n";
