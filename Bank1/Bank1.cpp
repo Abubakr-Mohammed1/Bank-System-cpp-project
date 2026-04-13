@@ -434,6 +434,14 @@ enum enMainMenueOptions { eShowClientList = 1, eAddNewClient = 2, eDeleteClient 
     eUpdateClient = 4, eFindClient = 5, eExit = 6
 };
 
+void ShowEndScreen()
+{
+    cout << "\n___________________________________\n";
+    cout << "\tProgram Ends :-)";
+    cout << "\n___________________________________\n\n";
+
+}
+
 void ShowFindClientScreen()
 {
     cout << "\n___________________________________\n";
@@ -488,38 +496,49 @@ void ActivateMainMenue(enMainMenueOptions MainMenueOption)
         system("cls");
         PrintAllClientsData();
         GoBackToMainMenue();
+        break;
     }
     case enMainMenueOptions::eAddNewClient:
     {
         system("cls");
         ShowAddNewClientScreen();
         GoBackToMainMenue();
+        break;
     }
     case enMainMenueOptions::eDeleteClient:
     {
         system("cls");
         ShowDeleteClientScreen();
         GoBackToMainMenue();
+        break;
     }
     case enMainMenueOptions::eUpdateClient:
     {
         system("cls");
         ShowUpdateClientScreen();
         GoBackToMainMenue();
+        break;
     }
     case enMainMenueOptions::eFindClient:
     {
         system("cls");
         ShowFindClientScreen();
         GoBackToMainMenue();
+        break;
     }
-
-
-
-
-
-
-
+    case enMainMenueOptions::eExit:
+    {
+        system("cls");
+        ShowEndScreen();
+        system("pause>0");
+        break;
+    }
+    default:
+    {
+        cout << "\n\nInvalid Input )-:";
+        GoBackToMainMenue();
+    }
+    
     }
 }
 
@@ -545,7 +564,6 @@ int main()
 {
     ShowMainMenue();
 
-    system("pause>0");
 
     return 0;
 }
