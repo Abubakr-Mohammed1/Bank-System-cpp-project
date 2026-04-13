@@ -10,6 +10,7 @@ using namespace std;
 const string ClientFileName = "Clients.txt";
 
 void ShowMainMenue();
+void GoBackToMainMenue();
 
 struct stClient
 {
@@ -303,7 +304,7 @@ void AddClients()
         cout << "Adding New Client:\n\n";
 
         AddNewClient();
-        cout << "\nClient Added Successfully, do you want to add more clients? ";
+        cout << "\nClient Added Successfully, do you want to add more clients? Y/N? ";
         cin >> AddMore;
         cin.ignore();
 
@@ -311,16 +312,21 @@ void AddClients()
     } while (toupper(AddMore) == 'Y');
 }
 
-bool DeleteClientByAccountNumber(string AccountNumber, vector <stClient>& vClients)
+bool DeleteClientByAccountNumber()
 {
+    string AccountNumber;
+    vector <stClient> vClients = LoadDataFormFileToVector(ClientFileName);
     stClient Client;
+
+    cout << "\nEnter Account Number? ";
+    AccountNumber = ReadClientAccountNumber();
 
     if (FindClientByAccountNumber(AccountNumber, vClients, Client))
     {
         PrintClientDetail(Client);
 
         char Answer = 'y';
-        cout << "\n\nDo you want to delete this client? y/n ? ";
+        cout << "\n\nAre you sure you want delete this client? y/n ? ";
         cin >> Answer;
 
         if (Answer == 'Y' || Answer == 'y')
@@ -331,6 +337,11 @@ bool DeleteClientByAccountNumber(string AccountNumber, vector <stClient>& vClien
             vClients = LoadDataFormFileToVector(ClientFileName);
 
             cout << "\n\nClient Deleted Successfully.";
+            return true;
+        }
+        else
+        {
+            cout << "\n\nThe client was not deleted.";
             return true;
         }
     }
@@ -388,23 +399,23 @@ enum enMainMenueOptions { eShowClientList = 1, eAddNewClient = 2, eDeleteClient 
     eUpdateClient = 4, eFindClient = 5, eExit = 6
 };
 
-void ShowingClientsList()
+void ShowDeleteClientScreen()
 {
-    system("cls");
-    PrintAllClientsData();
-    GoBackToMainMenue();
+    cout << "\n___________________________________\n";
+    cout << "\tDelete Client Screen";
+    cout << "\n___________________________________\n\n";
+    
+    DeleteClientByAccountNumber();
 }
 
 void ShowAddNewClientScreen()
 {
-    system("cls");
     cout << "\n___________________________________\n";
     cout << "\tAdd New Clients Screen";
     cout << "\n___________________________________\n\n";
 
     AddClients();
 
-    GoBackToMainMenue();
 }
 
 short ReadMainMenueOption()
@@ -413,6 +424,38 @@ short ReadMainMenueOption()
     cout << "Choose what do you want to do? [1 to 6]? ";
     cin >> Choose;
     return Choose;
+}
+
+void ActivateMainMenue(enMainMenueOptions MainMenueOption)
+{
+    switch (MainMenueOption)
+    {
+    case enMainMenueOptions::eShowClientList:
+    {
+        system("cls");
+        PrintAllClientsData();
+        GoBackToMainMenue();
+    }
+    case enMainMenueOptions::eAddNewClient:
+    {
+        system("cls");
+        ShowAddNewClientScreen();
+        GoBackToMainMenue();
+    }
+    case enMainMenueOptions::eDeleteClient:
+    {
+        system("cls");
+        ShowDeleteClientScreen();
+        GoBackToMainMenue();
+    }
+
+
+
+
+
+
+
+    }
 }
 
 void ShowMainMenue()
@@ -429,14 +472,13 @@ void ShowMainMenue()
     cout << "\t[6] Exit.\n";
     cout << "==========================================\n\n";
 
-    //PerformMainMenueOption((enMainMenueOptions)ReadMainMenueOption());
+    ActivateMainMenue((enMainMenueOptions)ReadMainMenueOption());
 
 }
 
 int main()
 {
-    ShowingClientsList();
-    ShowAddNewClientScreen();
+    ShowMainMenue();
 
     system("pause>0");
 
