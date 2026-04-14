@@ -17,7 +17,8 @@ Each stage of the project reflects a step forward in understanding programming c
 Bank-System/
 
 📁 [Bank1](./Bank1)  
-📁 [Bank System Extension](./Bank-System-Extension)
+📁 [Bank System Extension](./Bank%20System%20Extension)
+
 Each folder contains a different version of the system, with its own improvements and approach.
 
 ---
