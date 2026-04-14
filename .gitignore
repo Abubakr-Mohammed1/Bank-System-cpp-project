@@ -1,36 +1,73 @@
+# =========================
 # Visual Studio
+# =========================
 .vs/
 **/.vs/
 
+# Solution & user settings
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# =========================
 # Build folders
+# =========================
 Debug/
 Release/
 x64/
 x86/
 build/
+out/
 
-# IntelliSense / cache
-*.ipch
-*.vsidx
-*.suo
-*.user
-*.log
-*.tlog
-
+# =========================
 # Compiled files
+# =========================
 *.exe
 *.out
 *.obj
+*.o
 *.pdb
 *.ilk
+*.lib
+*.dll
 
-# Temporary files
+# =========================
+# Visual Studio cache
+# =========================
+*.ipch
+*.vsidx
+*.VC.db
+*.VC.opendb
+
+# =========================
+# Logs & temp
+# =========================
+*.log
+*.tlog
 *.tmp
 *.cache
 
+# =========================
+# CMake (لو استخدمته)
+# =========================
+CMakeFiles/
+CMakeCache.txt
+cmake-build-*/
+
+# =========================
+# VS Code
+# =========================
+.vscode/
+
+# =========================
 # OS files
+# =========================
 .DS_Store
 Thumbs.db
+desktop.ini
 
-# Weird temp files (زي الملف 0)
+# =========================
+# Weird files (زي 0)
+# =========================
 0
