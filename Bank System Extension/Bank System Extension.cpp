@@ -500,7 +500,7 @@ bool WithdrawClientByAccountNumber(string AccountNumber, vector <stClient>& vCli
             if (C.AccountNumber == AccountNumber)
             {
 
-                while (WithdrawAmount > Client.AccountBalance)
+                while (WithdrawAmount > C.AccountBalance || WithdrawAmount <= 0)
                 {
                     cout << "\nAmount Exceeds the balance, you can withdraw up to : " << C.AccountBalance;
                     cout << "\nPlease enter another amount? ";
@@ -635,23 +635,27 @@ void ActivateTransactionsMenue(enTransactionsMenueOptions TransactionsMenueOptio
         system("cls");
         ShowDepositScreen();
         GoBackToTransactionsMenue();
+        break;
     }
     case enTransactionsMenueOptions::eWithdraw:
     {
         system("cls");
         ShowWithdrawScreen();
         GoBackToTransactionsMenue();
+        break;
     }
     case enTransactionsMenueOptions::eTotalBalances:
     {
         system("cls");
         PrintAllClientsTotalBalance();
         GoBackToTransactionsMenue();
+        break;
     }
     case enTransactionsMenueOptions::eMainMenue:
     {
         system("cls");
         ShowMainMenue();
+        break;
     }
     }
 }
@@ -771,6 +775,7 @@ void ActivateMainMenue(enMainMenueOptions MainMenueOption)
     {
         system("cls");
         ShowTransactionsMenueScreen();
+        break;
     }
     case enMainMenueOptions::eExit:
     {
