@@ -70,3 +70,7 @@ desktop.ini
 # Weird files
 # =========================
 0
+
+# personal / private files
+*solution*.txt
+*Doctor*.txt
