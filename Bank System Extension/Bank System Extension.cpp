@@ -242,6 +242,13 @@ void PrintClientRecord(stClient Client)
     cout << "| " << left << setw(12) << Client.AccountBalance;
 }
 
+void PrintClientBalance(stClient Client)
+{
+    cout << "| " << left << setw(15) << Client.AccountNumber;
+    cout << "| " << left << setw(40) << Client.Name;
+    cout << "| " << left << setw(12) << Client.AccountBalance;
+}
+
 void PrintAllClientsData()
 {
     vector <stClient> vClients = LoadDataFormFileToVector(ClientFileName);
@@ -491,6 +498,35 @@ enum enTransactionsMenueOptions {
     eDeposit = 1, eWithdraw = 2, eTotalBalances = 3, eMainMenue = 4
 };
 
+void PrintAllClientsTotalBalance()
+{
+    vector <stClient> vClients = LoadDataFormFileToVector(ClientFileName);
+    double TotalBalances = 0;
+
+    cout << "\n\t\t\t\t\tBalances List (" << vClients.size() << ") Client(s).";
+    cout << "\n___________________________________________________________________________________________________\n" << endl;
+
+    cout << "| " << left << setw(15) << "Account Number";
+    cout << "| " << left << setw(40) << "Client Name";
+    cout << "| " << left << setw(12) << "Balance";
+    cout << "\n___________________________________________________________________________________________________\n" << endl;
+
+    if (vClients.size() == 0)
+        cout << "\t\t\t\t\tNo Clients Available In The System!";
+    else
+
+        for (stClient& Client : vClients)
+        {
+            PrintClientBalance(Client);
+            cout << endl;
+            TotalBalances += Client.AccountBalance;
+        }
+
+    cout << "\n___________________________________________________________________________________________________\n" << endl;
+    cout << "\n\t\t\t\t\tTotal Balances = " << TotalBalances;
+
+}
+
 short ReadTransactionsMenueOption()
 {
     short Choose = 0;
@@ -525,6 +561,12 @@ void ActivateTransactionsMenue(enTransactionsMenueOptions TransactionsMenueOptio
     {
         system("cls");
         ShowDepositScreen();
+        GoBackToTransactionsMenue();
+    }
+    case enTransactionsMenueOptions::eTotalBalances:
+    {
+        system("cls");
+        PrintAllClientsTotalBalance();
         GoBackToTransactionsMenue();
     }
     }
